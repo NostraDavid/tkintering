@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GUI Layout</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .left-side {
+        flex: 1;
+        padding: 20px;
+      }
+      .table {
+        margin-bottom: 20px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .table th,
+      .table td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      .table th {
+        background-color: #f2f2f2;
+      }
+      .right-side {
+        flex: 1;
+        padding: 20px;
+      }
+      .image-input {
+        margin-bottom: 20px;
+      }
+      .barcode {
+        margin-top: 20px;
+      }
+      .database {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .database th,
+      .database td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      .database th {
+        background-color: #f2f2f2;
+      }
+      .functions {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .function-button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="left-side">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Titel</th>
+              <th>Medium</th>
+              <th>Afmeting</th>
+              <th>Categorie</th>
+              <th>Jaar</th>
+              <th>Prijs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Hier komen de gegevens van de tabel -->
+          </tbody>
+        </table>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Invoer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <input type="text" placeholder="Nieuwe gegevens invoeren" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="right-side">
+        <div class="image-input">
+          <label for="image">Afbeelding invoeren:</label>
+          <input type="file" id="image" name="image" />
+          <button type="submit">Invoeren</button>
+        </div>
+        <div class="barcode">
+          <img src="barcode.png" alt="Barcode" />
+        </div>
+      </div>
+    </div>
+    <table class="database">
+      <thead>
+        <tr>
+          <th>Titel</th>
+          <th>Medium</th>
+          <th>Afmeting</th>
+          <th>Categorie</th>
+          <th>Jaar</th>
+          <th>Prijs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Hier komen de gegevens van de tabel -->
+      </tbody>
+    </table>
+    <div class="functions">
+      <button class="function-button">Kolom verwijderen</button>
+      <button class="function-button">Tabel verwijderen</button>
+      <button class="function-button">Record toevoegen</button>
+      <button class="function-button">Kolom toevoegen</button>
+      <button class="function-button">Specifieke records tonen</button>
+      <button class="function-button">Specifieke kolommen tonen</button>
+      <button class="function-button">Filteren</button>
+      <button class="function-button">Zoeken</button>
+      <button class="function-button">Gegevens updaten</button>
+      <button class="function-button">Gegevens opslaan</button>
+      <button class="function-button">Administratie</button>
+    </div>
+  </body>
+</html>
