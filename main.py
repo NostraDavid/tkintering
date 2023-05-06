@@ -1,10 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-
-import tkinter as tk
-from tkinter import ttk
-from tkinter import filedialog
 from tkinter import messagebox
 
 # Global variable to store the image path
@@ -66,16 +62,17 @@ def browse_file():
     pass
 
 
-# The rest of the code remains the same, just replace the function definitions with the new ones.
-
-
 # Create the main window
 root = tk.Tk()
 root.title("TreeView and Data Entry GUI")
 
+# Create a container frame for the treeview and scrollbar
+treeview_frame = tk.Frame(root)
+treeview_frame.grid(row=0, column=0, columnspan=2)
+
 # Create the treeview
 treeview = ttk.Treeview(
-    root,
+    treeview_frame,
     columns=("titel", "medium", "afmeting", "categorie", "jaar", "prijs"),
     show="headings",
 )
@@ -85,26 +82,33 @@ treeview.heading("afmeting", text="Afmeting")
 treeview.heading("categorie", text="Categorie")
 treeview.heading("jaar", text="Jaar")
 treeview.heading("prijs", text="Prijs")
-treeview.pack()
+treeview.pack(side=tk.LEFT)
+
+# Create a vertical scrollbar for the treeview
+treeview_scrollbar = ttk.Scrollbar(
+    treeview_frame, orient="vertical", command=treeview.yview
+)
+treeview_scrollbar.pack(side=tk.RIGHT, fill="y")
+treeview.config(yscrollcommand=treeview_scrollbar.set)
 
 # Create data entry labels and entry fields
-entry_labels = ["Titel", "Medium", "Afmeting", "Categorie", "Jaar", "Prijs"]
+entry_labels = ["titel", "medium", "afmeting", "categorie", "jaar", "prijs"]
 entries = {}
 for i, label in enumerate(entry_labels):
-    tk.Label(root, text=label).grid(row=i, column=0)
+    tk.Label(root, text=label).grid(row=i + 1, column=0)
     entries[label.lower()] = tk.Entry(root)
-    entries[label.lower()].grid(row=i, column=1)
+    entries[label.lower()].grid(row=i + 1, column=1)
 
 # Add a label and button to select a photo
 photo_label = tk.Label(root, text="Foto")
-photo_label.grid(row=len(entry_labels), column=0)
+photo_label.grid(row=len(entry_labels) + 1, column=0)
 
 browse_button = tk.Button(root, text="Bladeren", command=browse_file)
-browse_button.grid(row=len(entry_labels), column=1)
+browse_button.grid(row=len(entry_labels) + 1, column=1)
 
 # Create buttons
 button_frame = tk.Frame(root)
-button_frame.pack()
+button_frame.grid(row=len(entry_labels) + 2, column=0, columnspan=2)
 
 toevoegen_button = tk.Button(button_frame, text="Toevoegen", command=add_entry)
 toevoegen_button.pack(side=tk.LEFT)
