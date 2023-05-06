@@ -1,3 +1,4 @@
+import sqlite3
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -6,11 +7,37 @@ from tkinter import messagebox
 # Global variable to store the image path
 image_path = None
 
+# Create and connect to the SQLite database
+conn = sqlite3.connect("art_data.db")
+cursor = conn.cursor()
+
+# Create the table in the SQLite database
+cursor.execute(
+    """
+    CREATE TABLE IF NOT EXISTS art (
+        id INTEGER PRIMARY KEY,
+        titel TEXT NOT NULL,
+        medium TEXT NOT NULL,
+        afmeting TEXT NOT NULL,
+        categorie TEXT NOT NULL,
+        jaar INTEGER NOT NULL,
+        prijs REAL NOT NULL,
+        image_path TEXT NOT NULL
+    )
+"""
+)
+conn.commit()
+
 
 def add_entry():
     values = [entries[field].get() for field in entry_labels]
     if all(values) and image_path:
         treeview.insert("", tk.END, values=values)
+        cursor.execute(
+            "INSERT INTO art (titel, medium, afmeting, categorie, jaar, prijs, image_path) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            values + [image_path],
+        )
+        conn.commit()
     else:
         messagebox.showerror("Error", "Please fill in all fields and select an image.")
 
@@ -19,6 +46,9 @@ def remove_entry():
     selected_item = treeview.selection()
     if selected_item:
         treeview.delete(selected_item)
+        record_id = treeview.set(selected_item, "#1")
+        cursor.execute("DELETE FROM art WHERE id=?", (record_id,))
+        conn.commit()
     else:
         messagebox.showerror("Error", "Please select an item to remove.")
 
@@ -91,6 +121,15 @@ treeview_scrollbar = ttk.Scrollbar(
 treeview_scrollbar.pack(side=tk.RIGHT, fill="y")
 treeview.config(yscrollcommand=treeview_scrollbar.set)
 
+def load_data():
+    cursor.execute("SELECT * FROM art")
+    for row in cursor.fetchall():
+        treeview.insert("", tk.END, iid=row[0], values=row[1:])
+
+
+# Call the load_data function after creating the treeview
+load_data()
+
 # Create data entry labels and entry fields
 entry_labels = ["titel", "medium", "afmeting", "categorie", "jaar", "prijs"]
 entries = {}
@@ -129,5 +168,8 @@ file_menu.add_command(label="Print Rapport", command=print_report)
 file_menu.add_command(label="Print Barcode", command=print_barcode)
 file_menu.add_command(label="Print Barcode Sticker", command=print_barcode_sticker)
 file_menu.add_command(label="Ga naar Admin Pagina", command=go_to_admin_page)
+
+# Close the database connection when the program exits
+root.protocol("WM_DELETE_WINDOW", lambda: (conn.close(), root.destroy()))
 
 root.mainloop()
