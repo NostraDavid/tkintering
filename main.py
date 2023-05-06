@@ -1,23 +1,20 @@
 import tkinter as tk
-from tkinter import ttk
-from gui_elements import GUIElements
 from database import Database
+from gui_elements import GUIElements
 
-def main():
-    root = tk.Tk()
-    root.title("GUI Scherm")
-    
-    # Configureer de root window
-    root.geometry("800x600")
-    root.resizable(False, False)
-    
-    # Initialiseer de database
-    db = Database()
-    
-    # Initialiseer de GUI-elementen
-    gui = GUIElements(root, db)
-    
-    root.mainloop()
+
+class ArtworkGUI:
+    def __init__(self, db_name: str):
+        self.root = tk.Tk()
+        self.db = Database(db_name)
+        self.gui_elements = GUIElements(self.root, self.db)
+
+    def run(self) -> None:
+        self.root.title("Artwork Database")
+        self.root.geometry("800x600")
+        self.root.mainloop()
+
 
 if __name__ == "__main__":
-    main()
+    app = ArtworkGUI("artwork.db")
+    app.run()
