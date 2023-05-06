@@ -35,7 +35,9 @@ class Database:
         self.conn.commit()
 
     def get_all(self) -> List[Tuple[Any, ...]]:
-        self.cursor.execute("SELECT * FROM artwork")
+        self.cursor.execute(
+            "SELECT title, medium, dimension, category, year, price FROM artwork"
+        )
         return self.cursor.fetchall()
 
     def update(self, data: Tuple[Any, ...]) -> None:
