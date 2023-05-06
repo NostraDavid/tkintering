@@ -8,3 +8,5 @@
 !dev-requirements.txt
 !.gitignore
 !prompt.txt
+!database.py
+!gui_elements.py
